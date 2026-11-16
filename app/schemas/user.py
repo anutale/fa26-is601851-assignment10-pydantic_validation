@@ -2,6 +2,7 @@ from typing import Optional
 from uuid import UUID
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, ConfigDict
+from .base import UserCreate as UserCreate
 
 class UserResponse(BaseModel):
     """Schema for user response data"""
@@ -16,6 +17,10 @@ class UserResponse(BaseModel):
     updated_at: datetime
 
     model_config = ConfigDict(from_attributes=True)  # Enable mapping from ORM objects
+
+
+class UserRead(UserResponse):
+    """Public user details, excluding password data."""
 
 
 class Token(BaseModel):
