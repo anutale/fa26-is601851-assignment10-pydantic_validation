@@ -99,8 +99,8 @@ jobs:
         with:
           push: true
           tags: |
-            kaw393939/601_module9:latest
-            kaw393939/601_module9:${{ github.sha }}
+            anutale/fa26-is601851-assignment10-pydantic_validation:latest
+            anutale/fa26-is601851-assignment10-pydantic_validation:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=kaw393939/601_module9:cache
+          cache-from: type=registry,ref=anutale/fa26-is601851-assignment10-pydantic_validation:cache
           cache-to: type=inline,mode=max
