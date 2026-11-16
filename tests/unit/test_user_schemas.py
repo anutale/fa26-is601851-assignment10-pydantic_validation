@@ -1,6 +1,9 @@
 from datetime import datetime
 from uuid import uuid4
 
+import pytest
+from pydantic import ValidationError
+
 from app.schemas import UserCreate, UserRead
 
 
@@ -16,6 +19,17 @@ def test_user_create_schema_accepts_registration_fields():
     assert user.username == "johndoe"
     assert user.email == "john.doe@example.com"
     assert user.password == "SecurePass123"
+
+
+def test_user_create_rejects_invalid_email():
+    with pytest.raises(ValidationError):
+        UserCreate(
+            username="johndoe",
+            email="not-an-email",
+            password="SecurePass123",
+            first_name="John",
+            last_name="Doe",
+        )
 
 
 def test_user_read_schema_omits_password_hash():

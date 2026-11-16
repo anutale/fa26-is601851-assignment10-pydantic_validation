@@ -32,7 +32,7 @@ def test_database_connection(db_session):
     logger.info("Database connection test passed")
 
 
-def test_managed_session():
+def test_managed_session(setup_test_database):
     """
     Test the managed_db_session context manager for one-off queries and rollbacks.
     Demonstrates how a manual session context can work alongside the fixture-based approach.
@@ -329,7 +329,7 @@ def test_user_persistence_after_constraint(db_session):
 # Error Handling Test
 # ======================================================================================
 
-def test_error_handling():
+def test_error_handling(setup_test_database):
     """
     Verify that a manual managed_db_session can capture and log invalid SQL errors.
     """

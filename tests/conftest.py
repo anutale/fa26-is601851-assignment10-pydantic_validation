@@ -14,8 +14,8 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
-from app.database import Base, get_engine, get_sessionmaker
-from app.models.user import User
+from app.database import get_engine, get_sessionmaker
+from app.models.user import Base, User
 from app.config import settings
 from app.database_init import init_db, drop_db
 
@@ -103,7 +103,7 @@ class ServerStartupError(Exception):
 # ======================================================================================
 # Primary Database Fixtures
 # ======================================================================================
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def setup_test_database(request):
     """
     Initialize the test database once per session:
@@ -137,7 +137,7 @@ def setup_test_database(request):
         logger.info("Dropped test database tables.")
 
 @pytest.fixture
-def db_session(request) -> Generator[Session, None, None]:
+def db_session(setup_test_database, request) -> Generator[Session, None, None]:
     """
     Provide a test-scoped database session.
     By default, truncates all tables after each test to ensure isolation,

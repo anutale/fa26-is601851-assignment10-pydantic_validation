@@ -126,6 +126,21 @@ def test_unique_email_username(db_session):
     with pytest.raises(ValueError, match="Username or email already exists"):
         User.register(db_session, user2_data)
 
+def test_invalid_email_registration(db_session):
+    """Reject an invalid email before persisting a user."""
+    user_data = {
+        "first_name": "Invalid",
+        "last_name": "Email",
+        "email": "not-an-email",
+        "username": "invalidemail",
+        "password": "TestPass123",
+    }
+
+    with pytest.raises(ValueError):
+        User.register(db_session, user_data)
+
+    assert db_session.query(User).filter_by(username="invalidemail").first() is None
+
 def test_short_password_registration(db_session):
     """Test that registration fails with a short password"""
     # Prepare test data with a 5-character password
